@@ -1,6 +1,6 @@
 
-// hava durumu merkezi olarak adlandırdığım IOT projem 
-
+// basic weather app
+// just import the librarys
 #include <ESP8266WiFi.h>
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
@@ -9,19 +9,19 @@
 
 DHTesp dht;
 
-#define WLAN_SSID       ""             // MODEM ADI
-#define WLAN_PASS       ""        // MODEM ŞİFRESİ 
+#define WLAN_SSID       ""             // Wifi ssid
+#define WLAN_PASS       ""        // Wifi passwd
 
-/************************* Adafruit.io Setup *********************************/
-#define IFTTT_Key "h_KRVu3mU_hFoH6fG4_6zE20unGEWjHCfN3YANcWG37"
+/************************* Adafruit.io and IFTTT Setup *********************************/
+#define IFTTT_Key ""  //IFTTT key
 #define IFTTT_Event "water_sensor"
 #define AIO_SERVER      "io.adafruit.com" //Adafruit Server
 #define AIO_SERVERPORT  1883                   
-#define AIO_USERNAME    "huseyinkirca"            // ADAFRUİT.İO KULLANICI ADI
-#define AIO_KEY         "aio_GRbb66ePmaCDlSO1MqaMNU2pMefo"   // ADAFRUİT.İO ANAHTAR KODU
+#define AIO_USERNAME    ""            // ADAFRUİT.İO User name 
+#define AIO_KEY         ""   // ADAFRUİT.İO Key code
 
 
-int result = A0;
+int result = A0; // water level sensor analog pin
 int water_level = 0;
 int notify = 0;
 int notify_chc = 0;
@@ -29,7 +29,7 @@ int notify_chc = 0;
 WiFiClient client1;
 Adafruit_MQTT_Client mqtt(&client1, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
 
-Adafruit_MQTT_Publish temperature = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/temp"); // verileri Adafruite gönderdiğim kısım
+Adafruit_MQTT_Publish temperature = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/temp"); //setting some adafruit settings 
 Adafruit_MQTT_Publish humidity = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/hum");
 Adafruit_MQTT_Publish water_sen = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/water");
 
@@ -55,7 +55,7 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: "); 
   Serial.println(WiFi.localIP());
-  send_webhook(IFTTT_Event,IFTTT_Key,"test","TEST","Test");
+  send_webhook(IFTTT_Event,IFTTT_Key,"test","TEST","Test"); //testing webhook 
  
 }
 
@@ -89,7 +89,7 @@ void loop() {
         notify = 0;
       }
     }else{
-      send_webhook(IFTTT_Event,IFTTT_Key,"Galiba","yagmur","yagıyor"); // yağmur algıladığında telefona bildirim gönderiyor
+      send_webhook(IFTTT_Event,IFTTT_Key,"Galiba","yagmur","yagıyor"); // sending notification to my phone when raining 
     }
     
   }
